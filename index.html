@@ -15,7 +15,7 @@
   
   /* Reset básico para el 'body' cuando se ve directo */
   body {
-    background-color: #EFEFEF; /* Un fondo neutro si se abre directo */
+    background-color: transparent; /* Un fondo neutro si se abre directo */
     margin: 0;
     padding: 0;
     display: flex;
@@ -227,7 +227,6 @@
     <p id="resultado-tiempo"></p>
     <p id="resultado-texto"></p>
     <div class="final-actions">
-      <a id="mail-btn" class="mail-btn" href="#">Enviar Resultados por Correo</a>
       <button id="restart-btn" class="restart-btn">Volver a Intentar</button>
     </div>
     <div id="ranking-local">
@@ -2393,7 +2392,7 @@
 
   function calculateScore(totalTime) {
     let desgloseHTML = '<h3>Desglose de Respuestas:</h3>';
-    let desgloseParaEmail = "";
+    // let desgloseParaEmail = ""; // <-- BORRADO
 
     testQuestions.forEach((pregunta, i) => {
       const respuestaUsuario = userAnswers[i];
@@ -2405,7 +2404,7 @@
             <p class="desglose-pregunta">✔ ${pregunta.pregunta}</p>
             <p class="desglose-respuesta-user">Tu respuesta: ${pregunta.opciones[respuestaUsuario]}</p>
           </div>`;
-        desgloseParaEmail += `✔ Pregunta: ${pregunta.pregunta}\n   Tu respuesta: ${pregunta.opciones[respuestaUsuario]}\n\n`;
+        // desgloseParaEmail += ...; // <-- BORRADO
       } else {
         desgloseHTML += `
           <div class="desglose-item incorrecta">
@@ -2416,7 +2415,7 @@
               <strong>Motivo:</strong> ${pregunta.explicacion}
             </div>
           </div>`;
-        desgloseParaEmail += `❌ Pregunta: ${pregunta.pregunta}\n   Tu respuesta: ${respuestaUsuario !== null ? pregunta.opciones[respuestaUsuario] : 'No contestada'}\n   Respuesta correcta: ${pregunta.opciones[respuestaCorrecta]}\n   Pista: ${pregunta.explicacion}\n\n`;
+        // desgloseParaEmail += ...; // <-- BORRADO
       }
     });
 
@@ -2438,18 +2437,13 @@
     resultadoTiempo.textContent = tiempoTexto;
     desgloseRespuestas.innerHTML = desgloseHTML;
     
-    setupMailtoButton(aprobado, aciertos, totalTime, desgloseParaEmail);
+    // setupMailtoButton(aprobado, aciertos, totalTime, desgloseParaEmail); // <-- BORRADO
     
     saveScoreToRanking(userName, aciertos, totalTime);
     loadRanking();
   }
 
-  function setupMailtoButton(aprobado, aciertos, totalTime, desgloseEmail) {
-    const email = "rodrigonegrete.aros@gmail.com";
-    const subject = `Resultado del Test CCSE de ${userName}: ${aprobado ? 'APROBADO' : 'SUSPENSO'} (${aciertos}/${NUM_PREGUNTAS_TEST})`;
-    const body = `Hola Rodrigo,\n\nHe completado el test como "${userName}" con el siguiente resultado:\n\nEstado: ${aprobado ? 'APROBADO' : 'SUSPENSO'}\nPuntaje: ${aciertos} de ${NUM_PREGUNTAS_TEST}\nTiempo: ${formatTime(totalTime)}\n\n--- DESGLOSE ---\n\n${desgloseEmail}`;
-    mailBtn.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
+  // function setupMailtoButton(...) { ... } // <-- FUNCIÓN ENTERA BORRADA
 
   // --- Lógica de Ranking (localStorage) ---
   function saveScoreToRanking(name, score, time) {
@@ -2514,9 +2508,9 @@
     resultadoPuntaje = document.getElementById('resultado-puntaje');
     resultadoTiempo = document.getElementById('resultado-tiempo');
     resultadoTexto = document.getElementById('resultado-texto');
-    mailBtn = document.getElementById('mail-btn');
     rankingTbody = document.getElementById('ranking-tbody');
     desgloseRespuestas = document.getElementById('desglose-respuestas');
+    // La variable 'mailBtn' ya no se define ni se conecta.
 
     // Conectar los botones de inicio y reinicio
     if (startBtn) {
@@ -2533,4 +2527,3 @@
 </script>
 </body>
 </html>
-
