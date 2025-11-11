@@ -2486,7 +2486,7 @@
     });
   }
   
-  // **** ¡EL CÓDIGO CORREGIDO PARA LOS BOTONES! ****
+ // **** ¡EL CÓDIGO CORREGIDO PARA LOS BOTONES (INCLUYE FIX MÓVIL)! ****
   // Esta función se asegura de que todo el HTML esté cargado antes de conectar los botones.
   document.addEventListener('DOMContentLoaded', function() {
     
@@ -2510,14 +2510,23 @@
     resultadoTexto = document.getElementById('resultado-texto');
     rankingTbody = document.getElementById('ranking-tbody');
     desgloseRespuestas = document.getElementById('desglose-respuestas');
-    // La variable 'mailBtn' ya no se define ni se conecta.
 
     // Conectar los botones de inicio y reinicio
     if (startBtn) {
       startBtn.addEventListener('click', startQuiz);
+      // *** FIX PARA MÓVIL (AÑADIDO) ***
+      startBtn.addEventListener('touchend', function(e) {
+        e.preventDefault(); // Previene el "clic fantasma"
+        startQuiz();
+      });
     }
     if (restartBtn) {
       restartBtn.addEventListener('click', restartQuiz);
+      // *** FIX PARA MÓVIL (AÑADIDO) ***
+      restartBtn.addEventListener('touchend', function(e) {
+        e.preventDefault(); // Previene el "clic fantasma"
+        restartQuiz();
+      });
     }
     
     // Cargar el ranking en cuanto se cargue la página
@@ -2527,3 +2536,4 @@
 </script>
 </body>
 </html>
+
