@@ -2489,7 +2489,7 @@
   
  // **** ¡EL CÓDIGO CORREGIDO PARA LOS BOTONES (INCLUYE FIX MÓVIL)! ****
   // Esta función se asegura de que todo el HTML esté cargado antes de conectar los botones.
-  document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
     
     // Conectar todas las variables de DOM
     startScreen = document.getElementById('start-screen');
@@ -2512,20 +2512,35 @@
     rankingTbody = document.getElementById('ranking-tbody');
     desgloseRespuestas = document.getElementById('desglose-respuestas');
 
-    // Conectar los botones de inicio y reinicio
+    // --- Conexión de eventos para PC (click) y MÓVIL (touchend) ---
+    // 'touchend' es el "clic" en pantallas táctiles.
+    
     if (startBtn) {
-      startBtn.addEventListener('click', startQuiz);
-      // *** FIX PARA MÓVIL (AÑADIDO) ***
+      // Previene que se active el 'click' si ya se usó el 'touch'
+      let startClicked = false;
+      startBtn.addEventListener('click', function() {
+        if (!startClicked) startQuiz();
+        startClicked = false;
+      });
+      // Este es el evento para móviles
       startBtn.addEventListener('touchend', function(e) {
         e.preventDefault(); // Previene el "clic fantasma"
+        startClicked = true;
         startQuiz();
       });
     }
+    
     if (restartBtn) {
-      restartBtn.addEventListener('click', restartQuiz);
-      // *** FIX PARA MÓVIL (AÑADIDO) ***
+      // Previene que se active el 'click' si ya se usó el 'touch'
+      let restartClicked = false;
+      restartBtn.addEventListener('click', function() {
+        if (!restartClicked) restartQuiz();
+        restartClicked = false;
+      });
+      // Este es el evento para móviles
       restartBtn.addEventListener('touchend', function(e) {
         e.preventDefault(); // Previene el "clic fantasma"
+        restartClicked = true;
         restartQuiz();
       });
     }
@@ -2537,5 +2552,3 @@
 </script>
 </body>
 </html>
-
-
